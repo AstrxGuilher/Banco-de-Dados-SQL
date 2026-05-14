@@ -1,0 +1,14 @@
+CREATE TABLE casos_historico AS
+SELECT *
+FROM casos
+WHERE 1=2;
+
+INSERT INTO casos_historico
+SELECT *
+FROM casos
+WHERE id = 10;
+
+UPDATE casos
+SET titulo = 'Novo título'
+WHERE id = 10;
+

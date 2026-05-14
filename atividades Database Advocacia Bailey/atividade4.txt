@@ -1,0 +1,10 @@
+ALTER TABLE clientes
+ADD COLUMN primeiro_nome VARCHAR(100),
+ADD COLUMN sobrenome VARCHAR(200);
+
+UPDATE clientes
+SET primeiro_nome = split_part(nome, ' ', 1);
+
+UPDATE clientes
+SET sobrenome =
+substring(nome from position(' ' in nome)+1);

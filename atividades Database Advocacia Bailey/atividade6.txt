@@ -1,0 +1,11 @@
+UPDATE documentos
+SET caso_id = (
+    SELECT id
+    FROM casos
+    ORDER BY random()
+    LIMIT 1
+)
+WHERE caso_id IS NULL;
+
+ALTER TABLE documentos
+ALTER COLUMN caso_id SET NOT NULL;

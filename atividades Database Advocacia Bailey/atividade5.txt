@@ -1,0 +1,24 @@
+CREATE TABLE estados (
+    id SERIAL PRIMARY KEY,
+    sigla CHAR(2) UNIQUE NOT NULL
+);
+
+INSERT INTO estados(sigla)
+SELECT DISTINCT estado
+FROM pessoas;
+
+ALTER TABLE pessoas
+ADD COLUMN estado_id INT;
+
+UPDATE pessoas p
+SET estado_id = e.id
+FROM estados e
+WHERE p.estado = e.sigla;
+
+ALTER TABLE pessoas
+ADD CONSTRAINT fk_pessoas_estado
+FOREIGN KEY (estado_id)
+REFERENCES estados(id);
+
+ALTER TABLE pessoas
+DROP COLUMN estado;

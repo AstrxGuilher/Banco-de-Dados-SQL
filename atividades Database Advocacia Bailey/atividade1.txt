@@ -1,0 +1,33 @@
+ALTER TABLE casos RENAME COLUMN numero TO id;
+
+ALTER TABLE casos
+DROP CONSTRAINT fk_casos_ref_pai;
+
+ALTER TABLE casos
+ADD CONSTRAINT fk_casos_ref_pai
+FOREIGN KEY (caso_pai)
+REFERENCES casos(id);
+
+ALTER TABLE casos_pessoas
+DROP CONSTRAINT fk_casos_pessoas_casos;
+
+ALTER TABLE casos_pessoas
+ADD CONSTRAINT fk_casos_pessoas_casos
+FOREIGN KEY (caso_id)
+REFERENCES casos(id);
+
+ALTER TABLE documentos
+DROP CONSTRAINT fk_documentos_casos;
+
+ALTER TABLE documentos
+ADD CONSTRAINT fk_documentos_casos
+FOREIGN KEY (caso_id)
+REFERENCES casos(id);
+
+ALTER TABLE eventos
+DROP CONSTRAINT fk_eventos_casos;
+
+ALTER TABLE eventos
+ADD CONSTRAINT fk_eventos_casos
+FOREIGN KEY (caso_id)
+REFERENCES casos(id);

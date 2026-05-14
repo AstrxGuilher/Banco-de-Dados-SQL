@@ -1,0 +1,8 @@
+ALTER TABLE casos
+ADD COLUMN titulo VARCHAR(255);
+
+UPDATE casos
+SET titulo = LEFT(descricao, 100);
+
+ALTER TABLE casos
+ALTER COLUMN titulo SET NOT NULL;

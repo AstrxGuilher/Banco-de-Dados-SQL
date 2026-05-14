@@ -1,0 +1,36 @@
+CREATE TABLE documentos_conteudo (
+    id SERIAL PRIMARY KEY,
+    conteudo TEXT NOT NULL
+);
+
+ALTER TABLE documentos
+ADD COLUMN conteudo_id INT;
+
+INSERT INTO documentos_conteudo(conteudo)
+SELECT conteudo
+FROM documentos;
+
+UPDATE documentos d
+SET conteudo_id = dc.id
+FROM documentos_conteudo dc
+WHERE d.conteudo = dc.conteudo;
+
+ALTER TABLE documentos
+ADD CONSTRAINT fk_documentos_conteudo
+FOREIGN KEY (conteudo_id)
+REFERENCES documentos_conteudo(id);
+
+ALTER TABLE documentos
+DROP COLUMN conteudo;
+
+select sum(registros) from (
+SELECT relname AS tabela, n_live_tup AS registros
+FROM pg_stat_user_tables
+ORDER BY n_live_tup DESC);
+
+SELECT SUM(registros)
+FROM (
+    SELECT relname AS tabela,
+           n_live_tup AS registros
+    FROM pg_stat_user_tables
+) x;

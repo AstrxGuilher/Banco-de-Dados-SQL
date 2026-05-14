@@ -1,11 +1,24 @@
-UPDATE documentos
-SET caso_id = (
-    SELECT id
-    FROM casos
-    ORDER BY random()
-    LIMIT 1
-)
-WHERE caso_id IS NULL;
+CREATE TABLE escolaridades (
+    id SERIAL PRIMARY KEY,
+    descricao VARCHAR(100) UNIQUE
+);
 
-ALTER TABLE documentos
-ALTER COLUMN caso_id SET NOT NULL;
+INSERT INTO escolaridades(descricao)
+SELECT DISTINCT escolaridade
+FROM pessoas;
+
+ALTER TABLE pessoas
+ADD COLUMN escolaridade_id INT;
+
+UPDATE pessoas p
+SET escolaridade_id = e.id
+FROM escolaridades e
+WHERE p.escolaridade = e.descricao;
+
+ALTER TABLE pessoas
+ADD CONSTRAINT fk_pessoas_escolaridade
+FOREIGN KEY (escolaridade_id)
+REFERENCES escolaridades(id);
+
+ALTER TABLE pessoas
+DROP COLUMN escolaridade;
